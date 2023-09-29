@@ -22,6 +22,5 @@ airport1_cords = cursor.fetchone()
 cursor.execute("select latitude_deg, longitude_deg from ariport where ident = {icao_code2}")
 airport2_cords = cursor.fetchone()
 
-
-    cursor.close()
-    connection.close()
+cursor.close()
+connection.close()
