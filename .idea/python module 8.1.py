@@ -5,7 +5,7 @@ connection = mysql.connector.connect(
          port= 3306,
          database='flight_game',
          user='root',
-         password='Seagates',
+         password='3790',
          autocommit=True
          )
 
@@ -25,4 +25,3 @@ else:
 
 cursor.close()
 connection.close()
-.
