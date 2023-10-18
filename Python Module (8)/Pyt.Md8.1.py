@@ -26,7 +26,3 @@ else:
 
     cursor.close()
     connection.close()
-
-
-cursor.close()
-connection.close()
