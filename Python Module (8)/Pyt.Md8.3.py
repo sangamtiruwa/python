@@ -9,24 +9,33 @@ Calculate the distance using the geopy library: https://geopy.readthedocs.io/en/
 
 from geopy.distance import geodesic
 import mysql.connector
-
-connection = mysql.connector.connect(
-    host='localhost',
-    port=3306,
-    database='flight_game',
-    user='root',
-    password='3790',
-    autocommit=True
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="3790",
+    database="flight_game"
 )
+cursor = db.cursor()
+airport1_icao = input("Enter the ICAO code of the first airport: ")
+airport2_icao = input("Enter the ICAO code of the second airport: ")
 
-cursor = connection.cursor()
-Icao_code1 = input("Enter First ICAO code of an airport : ")
-Icao_code2 = input("Enter Second ICAO code of an airport : ")
+cursor.execute(f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{airport1_icao}'")
+airport1_coords = cursor.fetchone()
 
-cursor.execute(f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{Icao_code1}'")
-airport1_cords = cursor.fetchone()
-cursor.execute(f"SELECT latitude_deg, longitude_deg FROM airport WHERE ident = '{Icao_code2}'")
-airport2_cords = cursor.fetchone()
+cursor.execute(f"select latitude_deg, longitude_deg from airport where ident = '{airport2_icao}'")
+airport2_coords = cursor.fetchone()
 
-cursor.close()
-connection.close()
+if airport1_coords is None or airport2_coords is None:
+    print("One or both airports not found in the database.")
+else:
+    lat1, lon1 = airport1_coords
+    lat2, lon2 = airport2_coords
+
+    airport1 = (lat1, lon1)
+    airport2 = (lat2, lon2)
+    distance_km = geodesic(airport1, airport2).kilometers
+
+    print(f"The distance between two airports is approximately {distance_km:.2f} kilometers.")
+
+
+db.close()

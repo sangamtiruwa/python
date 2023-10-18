@@ -13,7 +13,7 @@ connection = mysql.connector.connect(
          autocommit=True
          )
 
-area_code = input("Enter the are code to search airport: ")
+area_code = input("Enter the area code to search airport: ")
 sql = ("select name, type, iso_country from airport order by type asc;")
 cursor = connection.cursor()
 cursor.execute(sql)
